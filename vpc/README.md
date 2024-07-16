@@ -1,0 +1,7 @@
+###### Notes about terraform VPC
+- A VPC spans all the Availability Zones (AZ) in a region. It is always associated with a CIDR range (both IPv4 and IPv6) which defines the number of internal network addresses that may be used internally.
+- Within the VPC, we create subnets that are specific to AZs. It is possible to have multiple subnets in the same AZ. The purpose of subnets is to internally segregate resources contained in the VPC in every AZ. AWS Regions consist of multiple Availability Zones for DR purposes
+- Our architecture contains two types of subnets – public and private. Public subnets enable internet access for the components hosted within them, while private subnets don’t. Routes in the route tables drive the decision to enable or disable internet access. When a subnet is associated with a route table that allows internet access, it is called a public subnet. Whereas the subnet associated with the route table that does not allow internet access is called private subnet.
+- An internet gateway is deployed and associated with the VPC to enable internet traffic within the VPC’s public subnets. Only one internet gateway can be associated with each VPC. Owing to this, and the fact that there is usually a default internet address (0.0.0.0/0) pointing to the internet gateway, as a best practice, it is recommended to create a second route table.
+- Since we have to build public subnets, we need to provide access to the internet in the given VPC. For this, the first thing that we need is an internet gateway. 
+- 
